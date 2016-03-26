@@ -21,8 +21,9 @@ module.exports = {
   module: {
     loaders: [
       {
-        loader: 'babel-loader',
         test: dir_js,
+        loader: 'babel-loader',
+        exclude: /node_modules/
       }
     ]
   },
