@@ -25,13 +25,17 @@ module.exports = {
         test: dir_js,
         loader: 'babel-loader',
         exclude: /node_modules/
+      },
+      { 
+        test: /\.css$/, 
+        loader: "style-loader!css-loader" 
       }
     ]
   },
   plugins: [
     // Simply copies the files over
     new CopyWebpackPlugin([
-      { from: dir_html, from: dir_styles} // to: output.path
+      { from: dir_html} // to: output.path
     ]),
     // Avoid publishing files when compilation fails
     new webpack.NoErrorsPlugin()

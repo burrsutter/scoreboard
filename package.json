@@ -14,7 +14,9 @@
     "babel-polyfill": "^6.3.14",
     "webpack": "^1.12.6",
     "webpack-dev-server": "^1.12.1",
-    "copy-webpack-plugin": "^0.2.0"
+    "copy-webpack-plugin": "^0.2.0",
+    "style-loader": "latest",
+    "css-loader": "latest"
   },
   "babel": {
     "presets": [
