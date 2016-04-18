@@ -23,18 +23,16 @@ $font-weight-light:         300;
 $font-weight-normal:        400;
 $font-weight-bold:          600;
 $font-size-base:            12px;
+$easeInOutBack: cubic-bezier(0.68, -0.55, 0.265, 1.55);
 
 html{
   height: 100%;
 }
 
 body{
-  background:
-          linear-gradient(to bottom,$color-background, transparent 50%),
-          linear-gradient($color-background 18px, transparent 18px) 0 -2px,
-          linear-gradient(90deg,  $color-background 18px, transparent 0px) -2px 0;
-  background-color: darken($color-blue-dark, 20%);
-  background-size: 100% 100%, 20px 20px, 20px 20px;
+  background-image: radial-gradient(55% 20% at top, lighten($color-background, 8%), $color-background 100%);
+  background-position: top center;
+  background-color: $color-background;
   color: $color-text;
   font-family: 'Open Sans', sans-serif;
   font-weight: $font-weight-normal;
@@ -43,8 +41,19 @@ body{
   height: 100%;
 }
 
+@keyframes bg-move{
+  to{
+    background-position: 0 100%;
+  }
+}
+
+body{
+  overflow: hidden;
+}
 .container{
-  margin: 0px 0px 0px 30px;
+  transform: perspective(100em) rotateX(40deg) scale(1.2, 1.8);
+  transform-origin: 50% 100%;
+  margin: 0px 30px;
   overflow: hidden;
   height: 100%;
   display: flex;
@@ -52,29 +61,49 @@ body{
   flex-direction: row;
   justify-content: space-around;
   align-items: stretch;
+
+  &:before{
+    content: "";
+    animation: bg-move 3s linear infinite;
+    position: absolute;
+    height: 100vh;
+    left:0;
+    right: 0;
+    z-index: -1;
+    background-image:
+            linear-gradient(to left, $color-background, transparent 20%),
+            linear-gradient(to right, $color-background, transparent 20%),
+            linear-gradient($color-background, transparent 80%),
+            linear-gradient(to bottom, $color-blue-dark, $color-blue-dark 1px, transparent 1px),
+            linear-gradient(to bottom, transparent, transparent 8px, rgba(0,0,0,.5) 8px, rgba(0,0,0,.5) 9px, transparent 9px);
+    background-size: 100% 100%, 100% 100%, 100% 100%, 100% 20%, 100% 20%;
+
+  }
+
+  &:after{
+    content: "";
+    animation: bg-move 7s linear infinite;
+    position: absolute;
+    height: 100vh;
+    left:0;
+    right: 0;
+    z-index: -2;
+    background:
+            linear-gradient($color-background, transparent 50%) 0 0px,
+            linear-gradient(to left, $color-background, transparent 15%),
+            linear-gradient(to right, $color-background, transparent 15%),
+            linear-gradient($color-background  18px, transparent 18px) 0 -2px,
+            linear-gradient(90deg, $color-background 18px, transparent 0px) -2px 0;
+    background-color: $color-blue-dark;
+    background-size: 100% 100%, 100% 100%, 100% 100%, 20px 20px, 20px 20px;
+  }
+
 }
 
-@keyframes fill{
-  from{
-    transform: scaleY(0);
-  }
-  to{
-    transform: scaleY(100%);
-  }
-}
-
-@keyframes move{
-  from{
-    transform: translateY(100%);
-  }
-  to{
-    transform: translateY(0);
-  }
-}
 
 @mixin color-settings($start-color, $end-color) {
   &:after{
-    background-image: linear-gradient($start-color, $end-color);
+    background-image: linear-gradient($end-color, $start-color);
   }
   .score-porcentage{
     border-top-color: $end-color;
@@ -83,10 +112,13 @@ body{
       color: $start-color;
     }
   }
-  .score-header{
-    h1{
+  .score-details{
+    h1, h2{
       background: $end-color;
       color: $start-color;
+    }
+    h2{
+      border-color: $color-background;
     }
     p{
       background: $start-color;
@@ -96,105 +128,153 @@ body{
   }
 }
 
-.score{
-  text-align: center;
-  background: $color-background-env;
-  flex: 1 0 10%;
-  margin: 30px 60px 30px 0;
-  position: relative;
-  &:before{
-    content: "vs";
-    position: absolute;
-    right: -48px;
-    top: 44px;
-    z-index: 4;
-    font-weight: $font-weight-light;
-    font-size: $font-size-base * 1.2;
-    color: lighten($color-background-env, 10%);
-    border: 1px solid lighten($color-background-env, 10%);
-    line-height: 34px;
-    width: 34px;
-    border-radius: 50%;
-  }
-  &:last-of-type{
-    &:before{
-      display: none;
-    }
-  }
-  &:after{
-    animation: fill 4s ease infinite;
-    transform-origin: bottom left;
-    content: "";
-    position: absolute;
-    bottom: 1px;
-    left: 1px;
-    right: 1px;
-    top: 124px;
-  }
-  &:nth-of-type(1){
-    @include color-settings($color-orange, $color-orange-dark);
-  }
-  &:nth-of-type(2){
-    @include color-settings($color-teal, $color-teal-dark);
-  }
-  &:nth-of-type(3){
-    @include color-settings($color-violet, $color-violet-dark);
-  }
-  &:nth-of-type(4){
-    @include color-settings($color-green, $color-green-dark);
-  }
-  &:nth-of-type(5){
-    @include color-settings($color-blue, $color-blue-dark);
-  }
-  &:nth-of-type(6){
-    @include color-settings($color-red, $color-red-dark);
-  }
-  &:nth-of-type(7){
-    @include color-settings($color-yellow, $color-yellow-dark);
+@keyframes pulse-red{
+  to{
+    filter:drop-shadow(0 10px 8px $color-blue);
   }
 }
 
-.score-header{
-  h1, p{
+@keyframes hoverboard-shadow{
+  from{
+    filter:drop-shadow(0 30px 5px rgba(0,0,0,.5));
+  }
+  to{
+    filter:drop-shadow(0 50px 10px rgba(0,0,0,.3));
+  }
+}
+
+@keyframes hoverboard-scale{
+  from{
+    transform: scale3d(1, 1, 1);
+  }
+  to{
+    transform: scale3d(1.05, 1.05, 1.05);
+  }
+}
+
+@keyframes hoverboard-glow{
+  to{
+    filter: opacity(.7);
+  }
+}
+
+.score{
+  animation: hoverboard-shadow 1s ease-in-out alternate infinite;
+  transition: .5s all ease;
+  text-align: center;
+  flex: 1 0 10%;
+  margin: 30px 30px 0 30px;
+  position: relative;
+  &.winner{
+    h2{
+      animation: pulse-red 1s ease-in-out alternate infinite;
+    }
+  }
+  &:after{
+    content: "";
+    position: absolute;
+    bottom: 0px;
+    width: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 0;
+  }
+  &:nth-of-type(1){
+    @include color-settings($color-orange, $color-orange-dark);
+    animation-delay: 1.2s;
+    .score-details, .score-details:after{animation-delay: 1.2s;}
+  }
+  &:nth-of-type(2){
+    @include color-settings($color-teal, $color-teal-dark);
+    animation-delay: 1.4s;
+    .score-details, .score-details:after{animation-delay: 1.4s;}
+  }
+  &:nth-of-type(3){
+    @include color-settings($color-violet, $color-violet-dark);
+    animation-delay: .8s;
+    .score-details, .score-details:after{animation-delay: .8s;}
+  }
+  &:nth-of-type(4){
+    @include color-settings($color-green, $color-green-dark);
+    animation-delay: .4s;
+    .score-details, .score-details:after{animation-delay: .4s;}
+  }
+  &:nth-of-type(5){
+    @include color-settings($color-blue, $color-blue-dark);
+    animation-delay: 1.6s;
+    .score-details, .score-details:after{animation-delay: 1.6s;}
+  }
+  &:nth-of-type(6){
+    @include color-settings($color-red, $color-red-dark);
+    animation-delay: 2s;
+    .score-details, .score-details:after{animation-delay: 2s;}
+  }
+  &:nth-of-type(7){
+    @include color-settings($color-yellow, $color-yellow-dark);
+    animation-delay: 1.8s;
+    .score-details, .score-details:after{animation-delay: 1.8s;}
+  }
+}
+
+.score-details{
+  animation: hoverboard-scale 1s ease-in-out alternate infinite;
+  position: relative;
+  z-index: 2;
+  h1, h2, p{
     margin: 0;
-    line-height: 60px;
-    box-shadow: 0px 3px 6px -2px rgba(0,0,0,.38);
     position: relative;
   }
   h1{
+    box-shadow: 0px 3px 6px -2px rgba(0,0,0,.38);
     font-weight: $font-weight-bold;
-    font-size: $font-size-base * 1.4;
+    font-size: $font-size-base * 1.6;
     z-index: 3;
     border-radius: 3px 3px 0 0;
+    line-height: 100px;
+  }
+  h2{
+    border-width: 4px;
+    border-style: solid;
+    width: 80px;
+    height: 80px;
+    line-height: 80px;
+    border-radius: 50%;
+    position: absolute;
+    left: 50%;
+    bottom: -40px;
+    transform: translateX(-50%);
+    z-index: 4;
+    font-weight: $font-weight-bold;
+    font-size: $font-size-base * 3;
+    span{
+      font-weight: $font-weight-light;
+      font-size: $font-size-base * 2;
+    }
   }
   p{
+    line-height: 60px;
+    padding-bottom: 40px;
     font-weight: $font-weight-bold;
     z-index: 2;
-    font-size: $font-size-base * 1.2;
+    font-size: $font-size-base * 1.6;
+    box-shadow: 0px 3px 6px -2px rgba(0,0,0,.38);
     span{
       font-weight: $font-weight-light;
       font-size: $font-size-base;
     }
   }
-}
-
-.score-porcentage{
-  transform-origin: bottom left;
-  position: absolute;
-  bottom: 1px;
-  top:0;
-  top: 124px;
-  right: -45px;
-  left: 1px;
-  z-index: 1;
-  animation: move 4s ease infinite;
-  border-top: 2px solid red;
-  span{
-    float: right;
-    display: block;
-    padding: 2px 0;
-    width: 40px;
-    font-weight: $font-weight-bold;
-    border-radius: 0 0 2px 2px;
+  &:after{
+    filter: opacity(1);
+    animation: hoverboard-glow 1s ease-in-out alternate infinite;
+    background-image: linear-gradient(rgba(255,255,255,.2), transparent 40%);
+    border-radius: 3px 3px 0 0;
+    content: "";
+    position: absolute;
+    top:2px;
+    bottom: 2px;
+    left:2px;
+    right: 2px;
+    z-index: 4;
+    mix-blend-mode: screen;
   }
 }
