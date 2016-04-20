@@ -4,29 +4,30 @@
   "name": "Scoreboard",
   "version": "0.0.1",
   "scripts": {
-    "build": "webpack",
-    "watch": "webpack --watch",
-    "start": "webpack-dev-server --hot --inline",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build-sass": "node-sass styles/styles.scss styles/styles.css",
+    "build-css": "postcss --config options.json",
+    "build-js": "browserify js/main.js -o build/bundle.js -dv",
+    "build-min-js": "browserify js/main.js | uglifyjs -o build/main.min.js",
+    "build-min-sass": "node-sass styles/styles.scss | cleancss -o build/styles.min.css",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch-ify": "watchify js/main.js -o build/bundle.js -d",
+    "watch-js": "nodemon -e js -w public/js -x 'npm run build-js'",
+    "watch-sass": "nodemon -e scss -w public/sass -x 'npm run build-sass'",
+    "build": "npm run build-js & npm run build-sass",
+    "watch": "npm run watch-js & npm run watch-sass",
+    "start": ""
+  },
+  "Dependencies": {
+
   },
   "devDependencies": {
-    "babel-loader": "^6.1.0",
-    "babel-preset-es2015": "^6.1.18",
-    "babel-polyfill": "^6.3.14",
-    "browser-sync": "^2.10.1",
-    "copy-webpack-plugin": "^0.2.0",
-    "css-loader": "latest",
-    "gulp": "^3.9.0",
-    "gulp-autoprefixer": "^3.1.0",
-    "gulp-sass": "^2.1.1",
-    "normalize.css": "^3.0.3",
-    "style-loader": "latest",
-    "webpack": "1.12.13",
-    "webpack-dev-server": "1.12.1"
-  },
-  "babel": {
-    "presets": [
-      "es2015"
-    ]
+    "autoprefixer": "latest",
+    "browserify": "13.x",
+    "node-sass": "latest",
+    "postcss-cachify": "latest",
+    "postcss-cli": "2.x",
+    "uglifyjs": "latest",
+    "clean-css": "latest",
+    "watchify": "3.x"
   }
 }
