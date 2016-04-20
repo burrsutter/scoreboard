@@ -1,6 +1,6 @@
 {
   "use": ["autoprefixer", "postcss-cachify"],
-  "input": "styles/styles.css",
+  "input": "build/styles.css",
   "output": "build/styles.css",
   "local-plugins": true,
   "autoprefixer": {

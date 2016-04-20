@@ -4,30 +4,33 @@
   "name": "Scoreboard",
   "version": "0.0.1",
   "scripts": {
-    "build-sass": "node-sass styles/styles.scss styles/styles.css",
-    "build-css": "postcss --config options.json",
+    "build-sass": "node-sass styles/styles.scss build/styles.css",
+    "build-css": "npm run build-sass && postcss --config options.json",
     "build-js": "browserify js/main.js -o build/bundle.js -dv",
     "build-min-js": "browserify js/main.js | uglifyjs -o build/main.min.js",
-    "build-min-sass": "node-sass styles/styles.scss | cleancss -o build/styles.min.css",
+    "build-min-css": "cleancss styles/styles.css | gzip -9 -c > build/styles.css.gz",
     "test": "echo \"Error: no test specified\" && exit 1",
     "watch-ify": "watchify js/main.js -o build/bundle.js -d",
-    "watch-js": "nodemon -e js -w public/js -x 'npm run build-js'",
-    "watch-sass": "nodemon -e scss -w public/sass -x 'npm run build-sass'",
-    "build": "npm run build-js & npm run build-sass",
-    "watch": "npm run watch-js & npm run watch-sass",
-    "start": ""
+    "watch-js": "nodemon -e js -w js -x 'npm run build-js'",
+    "watch-css": "nodemon -e scss -w styles -x 'npm run build-css'",
+    "bs-sync": "browser-sync start --server --port 8080 --index index.html --browser 'google-chrome' --files '*.html' 'build'",
+    "build": "npm run build-js & npm run build-css",
+    "watch": "npm run watch-js & npm run watch-css",
+    "start": "npm run watch-js & npm run watch-css & npm run bs-sync"
   },
   "Dependencies": {
 
   },
   "devDependencies": {
     "autoprefixer": "latest",
+    "browser-sync": "latest",
     "browserify": "13.x",
+    "clean-css": "latest",
     "node-sass": "latest",
+    "nodemon": "latest",
     "postcss-cachify": "latest",
     "postcss-cli": "2.x",
     "uglifyjs": "latest",
-    "clean-css": "latest",
     "watchify": "3.x"
   }
 }

@@ -45,4 +45,4 @@ function upPoints() {
 
 var timer = setInterval(upPoints, 200);
 
-setTimeout(()=> {clearInterval(timer)}, 20000);
+setTimeout(function() {clearInterval(timer)}, 20000);
