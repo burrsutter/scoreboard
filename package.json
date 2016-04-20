@@ -28,6 +28,7 @@
     "clean-css": "latest",
     "node-sass": "latest",
     "nodemon": "latest",
+    "normalize.css": "^3.0.3",
     "postcss-cachify": "latest",
     "postcss-cli": "2.x",
     "uglifyjs": "latest",
