@@ -168,11 +168,11 @@ body{
   }
 }
 
-@keyframes pulse-red{
-  to{
-    filter:drop-shadow(0 10px 8px $color-blue);
-  }
-}
+//@keyframes pulse-red{
+//  to{
+//    filter:drop-shadow(0 10px 8px $color-blue);
+//  }
+//}
 
 
 @keyframes hoverboard-shadow{
@@ -209,7 +209,8 @@ body{
   position: relative;
   &.winner{
     h2{
-      animation: pulse-red 1s ease-in-out alternate infinite;
+      filter:drop-shadow(0 8px 10px $color-blue);
+//      animation: pulse-red 1s ease-in-out alternate infinite;
     }
   }
   &:after{
