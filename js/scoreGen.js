@@ -12,11 +12,10 @@ module.exports = function (oldScores) {
   }
 */
 
-  scores[0] = addRandomNumTo(oldScores[0], 10);
-  scores[1] = addRandomNumTo(oldScores[1], 1);
-  scores[2] = addRandomNumTo(oldScores[2], 5);
+  scores[0] = addRandomNumTo(oldScores[0], 2);
+  scores[1] = addRandomNumTo(oldScores[1], 11);
+  scores[2] = addRandomNumTo(oldScores[2], 4);
   scores[3] = addRandomNumTo(oldScores[3], 7);
-
 
   return scores;
 };
