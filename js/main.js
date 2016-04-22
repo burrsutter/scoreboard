@@ -45,9 +45,9 @@ var ranks = [
   '3<span>rd</span>',
   '2<span>nd</span>',
   '1<span>st</span>'
-]
+];
 var scores = [1,1,1,1];
-var displayScores = [1,1,1,1];
+var racerPositions = [1,1,1,1];
 var sortedScores = [];
 
 function getSupportedPropertyName(properties) {
@@ -61,15 +61,15 @@ function getSupportedPropertyName(properties) {
 
 function getScore() {
   scores = scoreGen(scores);
-  displayScores = convertScores(scores);
+  racerPositions = convertScores(scores);
 }
 
 function getPosition(i) {
   var rankIndex;
 
   sortedScores = scores.slice(0);
-  insertionSort(sortedScores, 0, sortedScores.length - 1);
-  //sortedScores.sort(function(a, b){return a-b});
+  //sortedScores.sort(function(a, b){return a-b}); //standard JS way to sort
+  insertionSort(sortedScores, 0, sortedScores.length - 1); //my way, just because I can
   rankIndex = sortedScores.findIndex(function(a){return a>=scores[i]});
 
   return rankIndex;
@@ -77,8 +77,8 @@ function getPosition(i) {
 
 function upPoints() {
   getScore();
-  for (var i=0; i < displayScores.length; i++) {
-    var y = displayScores[i] + '%';
+  for (var i=0; i < racerPositions.length; i++) {
+    var y = racerPositions[i] + '%';
     if (transformProperty) {
       teamItems[i].style[transformProperty] = `translate3d(0, ${y}, 0)`;
     }

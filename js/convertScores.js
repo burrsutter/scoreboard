@@ -3,8 +3,6 @@
 module.exports = function (values) {
   var insertionSort = require('./insertionSort');
 
-  var scores = [];
-
   var total = 0;
   var screenMaxPercentSize = 75;
   var scorePercentages = [];
@@ -15,7 +13,7 @@ module.exports = function (values) {
   var sortedInvertedPercentagesScores;
   var highestInvertedPercentagesScore;
   var baseOffset = 0;
-  var scoreMultplier;
+  var scoreMultiplier;
 
   var scoreSpread = [];
   var i;
@@ -55,19 +53,12 @@ module.exports = function (values) {
   highestInvertedPercentagesScore = sortedInvertedPercentagesScores[sortedInvertedPercentagesScores.length - 1];
 
   // Add base-offset(5) to lowest to get spread-multiplier
-  scoreMultplier = screenMaxPercentSize/ (highestInvertedPercentagesScore + baseOffset);
+  scoreMultiplier = screenMaxPercentSize/ (highestInvertedPercentagesScore + baseOffset);
 
   // Multiply each value in inverted array by spread-multiplier
   for(i=0; i < invertedPercentagesScores.length; i++) {
-    scoreSpread[i] = scoreMultplier * invertedPercentagesScores[i];
+    scoreSpread[i] = scoreMultiplier * invertedPercentagesScores[i];
   }
 
-  // Fit the scores into the screen size 
-/*
-  for (i=0; i < scorePercentages.length; i++) {
-    scores[i] = (Math.floor(scorePercentages[i] * screenMaxPercentSize));
-  }
-*/
-  
   return scoreSpread;
 };
