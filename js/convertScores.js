@@ -1,28 +1,73 @@
 'use strict';
 
 module.exports = function (values) {
+  var insertionSort = require('./insertionSort');
+
   var scores = [];
-  var scorePercentages = [];
+
   var total = 0;
-  var i = 0;
-  var j = 0;
-  var h = 0;
-  var screenMaxPercentSize = 100;
+  var screenMaxPercentSize = 75;
+  var scorePercentages = [];
+  var sortedScorePercentages;
+  var highestScorePercentage;
+
+  var invertedPercentagesScores = [];
+  var sortedInvertedPercentagesScores;
+  var highestInvertedPercentagesScore;
+  var baseOffset = 0;
+  var scoreMultplier;
+
+  var scoreSpread = [];
+  var i;
+
 
   // Total up all the scores
-  for (i; i < values.length; i++) {
+  for (i=0; i < values.length; i++) {
     total += values[i];
   }
 
   // Find the percentage for each score
-  for (j; j < values.length; j++) {
-    scorePercentages[j] = values[j] / total;
+  for (i=0; i < values.length; i++) {
+    scorePercentages[i] = (values[i] / total) * 100;
   }
-  
+
+  // Clone the array
+  sortedScorePercentages = scorePercentages.slice(0);
+
+  // sort the array
+  insertionSort(sortedScorePercentages, 0, sortedScorePercentages.length - 1);
+
+  // Invert the percentages for the scores since 0 is highest in the UI
+  // Find the highest number
+  highestScorePercentage = sortedScorePercentages[sortedScorePercentages.length - 1];
+
+  // Subtract all the numbers from the highest (highest - n)
+  for(i=0; i < scorePercentages.length; i++) {
+    invertedPercentagesScores[i] = highestScorePercentage - scorePercentages[i];
+  }
+
+  // Spread all scores across screen-size(75)
+  // clone the array
+  sortedInvertedPercentagesScores = invertedPercentagesScores.slice(0);
+  // sort the array
+  insertionSort(sortedInvertedPercentagesScores, 0, sortedInvertedPercentagesScores.length - 1);
+  // Find the highest (this will be the lowest score but highest value) from new array
+  highestInvertedPercentagesScore = sortedInvertedPercentagesScores[sortedInvertedPercentagesScores.length - 1];
+
+  // Add base-offset(5) to lowest to get spread-multiplier
+  scoreMultplier = screenMaxPercentSize/ (highestInvertedPercentagesScore + baseOffset);
+
+  // Multiply each value in inverted array by spread-multiplier
+  for(i=0; i < invertedPercentagesScores.length; i++) {
+    scoreSpread[i] = scoreMultplier * invertedPercentagesScores[i];
+  }
+
   // Fit the scores into the screen size 
-  for (h; h < scorePercentages.length; h++) {
-    scores[h] = 75 - (Math.floor(scorePercentages[h] * screenMaxPercentSize));
+/*
+  for (i=0; i < scorePercentages.length; i++) {
+    scores[i] = (Math.floor(scorePercentages[i] * screenMaxPercentSize));
   }
+*/
   
-  return scores;
+  return scoreSpread;
 };

@@ -17,5 +17,11 @@ module.exports = function (oldScores) {
   scores[2] = addRandomNumTo(oldScores[2], 4);
   scores[3] = addRandomNumTo(oldScores[3], 7);
 
+  var randomIndex = 0;
+  randomIndex = Math.floor(Math.random() * 4);
+  scores[randomIndex] = addRandomNumTo(scores[randomIndex], 30)
+  
+  //console.log('Added ' + scores[randomIndex] + ' to ' + randomIndex);
+  
   return scores;
 };

@@ -4,6 +4,7 @@
 var scoreGen = require('./scoreGen');
 var convertScores = require('./convertScores');
 var addRandomNumTo = require('./addRandomNumTo');
+var insertionSort = require('./insertionSort');
 
 
 var transform = ["transform", "msTransform", "webkitTransform", "mozTransform", "oTransform"];
@@ -15,6 +16,10 @@ var team_score_1 = document.getElementById('team-score-1');
 var team_score_2 = document.getElementById('team-score-2');
 var team_score_3 = document.getElementById('team-score-3');
 var team_score_4 = document.getElementById('team-score-4');
+var rank_team_1 = document.getElementById('rank-team-1');
+var rank_team_2 = document.getElementById('rank-team-2');
+var rank_team_3 = document.getElementById('rank-team-3');
+var rank_team_4 = document.getElementById('rank-team-4');
 var transformProperty = getSupportedPropertyName(transform);
 var teams = ['team-1', 'team-2', 'team-3', 'team-4'];
 var teamItems = [
@@ -29,8 +34,21 @@ var teamScores = [
   team_score_3,
   team_score_4
 ];
+var teamRanks = [
+  rank_team_1,
+  rank_team_2,
+  rank_team_3,
+  rank_team_4
+];
+var ranks = [
+  '4<span>th</span>',
+  '3<span>rd</span>',
+  '2<span>nd</span>',
+  '1<span>st</span>'
+]
 var scores = [1,1,1,1];
 var displayScores = [1,1,1,1];
+var sortedScores = [];
 
 function getSupportedPropertyName(properties) {
   for (var i = 0; i < properties.length; i++) {
@@ -46,31 +64,33 @@ function getScore() {
   displayScores = convertScores(scores);
 }
 
-/*
-var randomIndex = 0;
-function setRandomIndex(y) {
-  randomIndex = Math.ceil(Math.random() * y);
-}
-function scoreMultiplier() {
-  scores[randomIndex] = addRandomNumTo(randomIndex, 20)
-}
-var t2 = setInterval(scoreMultiplier(), 1000);
+function getPosition(i) {
+  var rankIndex;
 
-setTimeout(function() {clearInterval(t2)}, 30000);
-*/
+  sortedScores = scores.slice(0);
+  insertionSort(sortedScores, 0, sortedScores.length - 1);
+  //sortedScores.sort(function(a, b){return a-b});
+  rankIndex = sortedScores.findIndex(function(a){return a>=scores[i]});
 
+  return rankIndex;
+}
 
 function upPoints() {
   getScore();
-  //setRandomIndex(4);
   for (var i=0; i < displayScores.length; i++) {
     var y = displayScores[i] + '%';
     if (transformProperty) {
       teamItems[i].style[transformProperty] = `translate3d(0, ${y}, 0)`;
-      teamScores[i].innerHTML = '<strong>'+ scores[i] +'<strong>';
+    }
+    teamScores[i].innerHTML = '<strong>'+ scores[i] +'<strong>';
+    var rankindex = getPosition(i);
+    teamRanks[i].innerHTML = ranks[rankindex];
+    if (rankindex === 3) {
+      teamItems[i].classList.add('winner');
+    } else {
+      teamItems[i].classList.remove('winner');
     }
   }
-  //console.log("scores = " + displayScores);
 }
 
 var timer = setInterval(upPoints, 500);
