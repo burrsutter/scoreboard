@@ -80,7 +80,7 @@ function upPoints() {
   for (var i=0; i < racerPositions.length; i++) {
     var y = racerPositions[i] + '%';
     if (transformProperty) {
-      teamItems[i].style[transformProperty] = `translate3d(0, ${y}, 0)`;
+      teamItems[i].style[transformProperty] = 'translate3d(0, ' + y + ', 0)';
     }
     teamScores[i].innerHTML = '<strong>'+ scores[i] +'<strong>';
     var rankindex = getPosition(i);
