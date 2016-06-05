@@ -16,6 +16,10 @@ var team_score_1 = document.getElementById('team-score-1');
 var team_score_2 = document.getElementById('team-score-2');
 var team_score_3 = document.getElementById('team-score-3');
 var team_score_4 = document.getElementById('team-score-4');
+var team_score_block_1 = document.getElementById('team-score-block-1');
+var team_score_block_2 = document.getElementById('team-score-block-2');
+var team_score_block_3 = document.getElementById('team-score-block-3');
+var team_score_block_4 = document.getElementById('team-score-block-4');
 var rank_team_1 = document.getElementById('rank-team-1');
 var rank_team_2 = document.getElementById('rank-team-2');
 var rank_team_3 = document.getElementById('rank-team-3');
@@ -33,6 +37,12 @@ var teamScores = [
   team_score_2,
   team_score_3,
   team_score_4
+];
+var teamScoreBlocks = [
+  team_score_block_1,
+  team_score_block_2,
+  team_score_block_3,
+  team_score_block_4
 ];
 var teamRanks = [
   rank_team_1,
@@ -60,39 +70,55 @@ function getSupportedPropertyName(properties) {
 }
 
 function getScore() {
+  // TODO: Change out 'scoreGen' for the REST endpoint that gets the scores.
   scores = scoreGen(scores);
+  // Convert the raw scores into the UI position information needed.
   racerPositions = convertScores(scores);
+  applyScoresToUI()
 }
 
 function getPosition(i) {
   var rankIndex;
 
+  // Copy the array so that we aren't modifying the original.
   sortedScores = scores.slice(0);
-  //sortedScores.sort(function(a, b){return a-b}); //standard JS way to sort
+  // Sort the scores in ascending order.
+//  sortedScores.sort(function(a, b){return a-b}); //standard JS way to sort
   insertionSort(sortedScores, 0, sortedScores.length - 1); //my way, just because I can
-  rankIndex = sortedScores.findIndex(function(a){return a>=scores[i]});
+  // Now that we know the ascending order of the scores,
+  // get the index of the first element in the array that has a value of scores[i] or more.
+  // The findIndex function passes each element of the array one at a time. 
+  // It stops looking after it finds a match.
+  rankIndex = sortedScores.findIndex(function(sortedScore){return sortedScore>=scores[i]});
 
   return rankIndex;
 }
 
-function upPoints() {
-  getScore();
+function applyScoresToUI() {
   for (var i=0; i < racerPositions.length; i++) {
+    // Set the position vertically of the 'car'
     var y = racerPositions[i] + '%';
     if (transformProperty) {
       teamItems[i].style[transformProperty] = 'translate3d(0, ' + y + ', 0)';
     }
+    // Add the score to the header and bold it.
     teamScores[i].innerHTML = '<strong>'+ scores[i] +'<strong>';
+    // Find the position / rank for each team.
     var rankindex = getPosition(i);
+    // Based on the rank add the 'place' (1st,2nd,3rd,4th) to each 'car'.
     teamRanks[i].innerHTML = ranks[rankindex];
+    // Add 'glow' to the current leader and remove it from the others.
     if (rankindex === 3) {
       teamItems[i].classList.add('winner');
+      teamScoreBlocks[i].classList.add('winner');
     } else {
       teamItems[i].classList.remove('winner');
+      teamScoreBlocks[i].classList.remove('winner');
     }
   }
 }
 
-var timer = setInterval(upPoints, 500);
+var timer = setInterval(getScore, 500);
 
+// TODO: turn this off when running with live data
 setTimeout(function() {clearInterval(timer)}, 30000);
