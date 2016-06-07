@@ -1,5 +1,6 @@
 'use strict';
 
+// Called by processScores.js, getPosition.js
 module.exports = function (values) {
   var insertionSort = require('./insertionSort');
 

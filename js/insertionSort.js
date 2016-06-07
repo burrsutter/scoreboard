@@ -1,5 +1,6 @@
 'use strict';
 
+// Called by convertScores.js
 module.exports = function (array, left, right) {
   function less(v, w) {
     return v < w;
