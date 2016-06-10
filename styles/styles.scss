@@ -42,6 +42,24 @@ body{
   overflow: hidden;
 }
 
+.aggregate-score{
+//  background: $color-background-env;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  text-align: center;
+  line-height: 40px;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  li{
+    display: inline-block;
+    margin: 0 30px;
+    strong{
+      filter: opacity(.8);
+    }
+  }
+}
 .scoreboard{
   position: absolute;
   list-style: none;
@@ -67,7 +85,6 @@ body{
       box-shadow: 0 5px 15px -5px $color-blue;
       transform: scale3d(1.05, 1.05, 1.05);
     }
-
 
     strong{
       font-size: $font-size-base * 3.4;
