@@ -10,8 +10,10 @@ function run() {
   scores = getScores(scores, racerPositions);
 }
 
+run();
+
 // Start the app by repeatedly fetching and processing the Scores.
-var timer = setInterval(run, 500);
+// var timer = setInterval(run, 500);
 
 // TODO: turn this off when running with live data
-setTimeout(function() {clearInterval(timer)}, 30000);
+// setTimeout(function() {clearInterval(timer)}, 30000);
