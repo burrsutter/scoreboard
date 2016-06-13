@@ -62,7 +62,7 @@ module.exports = function (scores, racerPositions) {
       teamItems[i].style[transformProperty] = 'translate3d(0, ' + y + ', 0)';
     }
     // Add the score to the header and bold it.
-    teamScores[i].innerHTML = '<strong>'+ scores[i] +'<strong>';
+    teamScores[i].innerHTML = scores[i];
     // Find the position / rank for each team.
     var rankindex = getPosition(i, scores);
     // Based on the rank add the 'place' (1st,2nd,3rd,4th) to each 'car'.

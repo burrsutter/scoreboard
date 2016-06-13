@@ -52,7 +52,7 @@ body{
   padding: 0;
   margin: 0;
   list-style: none;
-  li{
+  > li{
     display: inline-block;
     margin: 0 30px;
     strong{
@@ -68,7 +68,7 @@ body{
   width: calc(100vw - 32%);
   margin: 0 16%;
   filter: opacity(1);
-  li{
+  > li{
     transition: .3s all ease-in-out;
     flex: 1 0 20%;
     border-width: 1px;
@@ -86,10 +86,23 @@ body{
       transform: scale3d(1.05, 1.05, 1.05);
     }
 
-    strong{
+    > strong{
       font-size: $font-size-base * 3.4;
       display: block;
     }
+
+    ul{
+      list-style: none;
+      padding: 0;
+      li{
+        display: inline-block;
+//        background: red;
+        &:first-child{
+          margin-right: 10px;
+        }
+      }
+    }
+
     &:nth-of-type(1){
       color: $color-orange;
       border-color: $color-orange-dark;

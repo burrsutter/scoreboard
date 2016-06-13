@@ -13,10 +13,10 @@ module.exports = function (scores, racerPositions) {
   scores[1] = 1;
   scores[2] = 1;
   scores[3] = 1;
-  
+
   // declare websocket
   var ws = new WebSocket('ws://localhost:9001/scoreboard');
-  
+
   ws.onopen = event => {
     // console.log(event);
   };
@@ -24,15 +24,15 @@ module.exports = function (scores, racerPositions) {
   ws.onmessage = event => {
     console.log(event);
     let message = JSON.parse(event.data);
-    
-    scores[0] = message[0].score;          
+
+    scores[0] = message[0].score;
     scores[1] = message[1].score;
     scores[2] = message[2].score;
     scores[3] = message[3].score;
-    
+
     processScores(scores, racerPositions);
   };
-  
+
   return scores;
 
 };
