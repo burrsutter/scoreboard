@@ -1,18 +1,29 @@
 'use strict';
 
 // Called by main.js
-module.exports = function (scores, racerPositions) {
-  // TODO: remove when live
-  // var scoreGen = require('./scoreGen');
+module.exports = function (results, racerPositions) {
   var processScores = require('./processScores');
+  // TODO: remove when live
+/*
+  var scoreGen = require('./scoreGen');
+  results.scores = scoreGen(results.scores);
+  var pp = 0, pl = 0;
+  for (var i = 0; i < 4; i++) {
+    pp = pp + (1 + i) * 5;
+    pl = pl + (1 + i) * 2;
+    results.pops[i] = pp;
+    results.players[i] = pl;
+  }
+  processScores(results, racerPositions);
+*/
 
-  // scores = scoreGen(scores);
-  // console.log("HERE");
+/*
   var scores = new Array(4);
   scores[0] = 1;
   scores[1] = 1;
   scores[2] = 1;
   scores[3] = 1;
+*/
 
   // declare websocket
   var ws = new WebSocket('ws://localhost:9001/scoreboard');
@@ -25,14 +36,15 @@ module.exports = function (scores, racerPositions) {
     console.log(event);
     let message = JSON.parse(event.data);
 
-    scores[0] = message[0].score;
-    scores[1] = message[1].score;
-    scores[2] = message[2].score;
-    scores[3] = message[3].score;
+    for (var i = 0; i < message.length; i++) {
+      results.scores[i] = message[i].score;
+      results.pops[i] = message[i].numPops;
+      results.players[i] = message[i].numPlayers;
+    }
 
-    processScores(scores, racerPositions);
+    processScores(results, racerPositions);
   };
 
-  return scores;
+  return results;
 
 };

@@ -1,7 +1,7 @@
 'use strict';
 
 // Called by processScores.js
-module.exports = function (scores, racerPositions) {
+module.exports = function (results, racerPositions) {
   var getSupportedPropertyName = require('./getSupportedPropertyName');
   var getPosition = require('./getPosition');
 
@@ -55,16 +55,37 @@ module.exports = function (scores, racerPositions) {
     '1<span>st</span>'
   ];
 
+  var totalScoreDiv = document.getElementById('totalScore');
+
   for (var i=0; i < racerPositions.length; i++) {
     // Set the position vertically of the 'car'
     var y = racerPositions[i] + '%';
     if (transformProperty) {
       teamItems[i].style[transformProperty] = 'translate3d(0, ' + y + ', 0)';
     }
-    // Add the score to the header and bold it.
-    teamScores[i].innerHTML = scores[i];
+    // Add Total pops and players to the header.
+    totalScoreDiv.innerHTML = `
+      <li>
+        <strong>Total pops:</strong>${results.pops.reduce( (prev, curr) => prev + curr )}
+      </li>
+      <li>
+        <strong>Total players:</strong>${results.players.reduce( (prev, curr) => prev + curr )}
+      </li>
+    `;
+    // Add the score to the header. Add pops and players to team score card
+    teamScoreBlocks[i].innerHTML = `
+      <strong id="team-score-${i}">${results.scores[i]}</strong>
+      <ul>
+        <li>
+          <strong>Pops:</strong>${results.pops[i]}
+        </li>
+        <li>
+          <strong>Players:</strong>${results.players[i]}
+        </li>
+      </ul>
+    `;
     // Find the position / rank for each team.
-    var rankindex = getPosition(i, scores);
+    var rankindex = getPosition(i, results.scores);
     // Based on the rank add the 'place' (1st,2nd,3rd,4th) to each 'car'.
     teamRanks[i].innerHTML = ranks[rankindex];
     // Add 'glow' to the current leader and remove it from the others.

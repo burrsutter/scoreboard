@@ -1,12 +1,12 @@
 'use strict';
 
 // Called by getScores.js
-module.exports = function (scores, racerPositions) {
+module.exports = function (results, racerPositions) {
   var convertScores = require('./convertScores');
   var applyScoresToUI = require('./applyScoresToUI');
 
   // Convert the raw scores into the UI position information needed.
-  racerPositions = convertScores(scores);
+  racerPositions = convertScores(results.scores);
   
-  applyScoresToUI(scores, racerPositions);
+  applyScoresToUI(results, racerPositions);
 };
