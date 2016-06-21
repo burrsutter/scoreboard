@@ -66,10 +66,10 @@ module.exports = function (results, racerPositions) {
     // Add Total pops and players to the header.
     totalScoreDiv.innerHTML = `
       <li>
-        <strong>Total pops:</strong>${results.pops.reduce( (prev, curr) => prev + curr )}
+        <strong>Total pops: </strong>${results.pops.reduce( (prev, curr) => prev + curr )}
       </li>
       <li>
-        <strong>Total players:</strong>${results.players.reduce( (prev, curr) => prev + curr )}
+        <strong>Total players: </strong>${results.players.reduce( (prev, curr) => prev + curr )}
       </li>
     `;
     // Add the score to the header. Add pops and players to team score card
@@ -77,10 +77,10 @@ module.exports = function (results, racerPositions) {
       <strong id="team-score-${i}">${results.scores[i]}</strong>
       <ul>
         <li>
-          <strong>Pops:</strong>${results.pops[i]}
+          <strong>Pops: </strong>${results.pops[i]}
         </li>
         <li>
-          <strong>Players:</strong>${results.players[i]}
+          <strong>Players: </strong>${results.players[i]}
         </li>
       </ul>
     `;
