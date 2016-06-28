@@ -26,7 +26,7 @@ module.exports = function (results, racerPositions) {
 */
 
   // declare websocket
-  var ws = new WebSocket('ws://gamebus-production.apps-test.redhatkeynote.com/scoreboard');
+  var ws = new WebSocket('ws://gamebus-boards-production.apps-test.redhatkeynote.com/scoreboard');
   // var ws = new WebSocket('ws://localhost:9001/scoreboard');
 
   ws.onopen = event => {
